@@ -1,0 +1,219 @@
+---
+title: "Assignment2"
+author: "sanjay s"
+date: "2023-08-18"
+output: html_document
+---
+
+In this exercise you will create some simulated data and will fit simple linear regression models to it. Make sure to use set.seed(1) prior to starting part (a) to ensure consistent results.rnorm
+
+a.	Using the rnorm() function, create a vector, “x”, containing 100 observations drawn from a N(0,1) distribution. This represents a feature, X.
+```{r}
+set.seed(1)
+x=rnorm(100,mean = 0,sd=1)
+x
+
+```
+
+b.	Using the rnorm() function, create a vector, “eps”, containing 100 observations drawn from a N(0,0.25) distribution.
+```{r}
+eps=rnorm(100,0,sqrt(0.25))
+eps
+```
+
+c.	Using “x” and “eps”, generate a vector “y” according to the model
+Y=−1+0.5X+ε.
+What is the length of the vector “y” ? What are the values of β0 and β1 in this linear model ?
+```{r}
+y =-1+0.5*x+eps
+length(y)
+```
+The length of the vector “y”= 100.  The values of β0=-1, β1=0.
+
+d.	Create a scatterplot displaying the relationship between “x” and “y”. Comment on what you observe.
+```{r}
+plot(x,y)
+```
+
+
+ The relationship between “x” and “y” looks linear.
+
+e.	Fit a least squares linear model to predict “y” using “x”. Comment on the model obtained. How do β^0 and β^1 compare to β0 and β1 ?
+```{r}
+Fit=lm(y~x)
+Fit
+summary(Fit)
+```
+
+The values of β^0 and β^1 are pretty close to β0 and β1. The model has a less P-value so from this we know that there is a relationship. So the null hypothesis can be rejected.
+
+
+f.	Display the least squares line on the scatterplot obtained in (d). Draw the population regression line on the plot, in a different color. Use the legend() function to create an appropriate legend.
+```{r}
+plot(x,y)                                                                                         
+abline(Fit,col="green",lty=1)
+abline(-1,0.5,col="blue",lty=2)
+legend("topleft",c("Fit","True"),
+       col=c("green","blue"),lty=c(1,2))
+
+```
+
+
+
+This problem involves the “Boston” data set, which we saw in the lab for this chapter. We will now try to predict per capita crime rate using the other variables in this data set. In other words, per capita crime rate is the response, and the other variables are the predictors.
+
+a.	For each predictor, fit a simple linear regression model to predict the response. Describe your results. In which of the models is there a statistically significant association between the predictor and the response ? Create some plots to back up your assertions.
+```{r}
+library(MASS)
+
+```
+
+```{r}
+attach(Boston)
+fit1 =lm(crim ~ zn)
+fit1
+summary(fit1)
+
+```
+```{r}
+par(mfrow=c(2,2))
+plot(fit1)
+```
+```{r}
+fit2 =lm(crim ~ indus)
+fit2
+summary(fit2)
+```
+```{r}
+par(mfrow=c(2,2))
+plot(fit2)
+```
+```{r}
+fit3 =lm(crim ~ chas)
+fit3
+summary(fit3)
+```
+```{r}
+par(mfrow=c(2,2))
+plot(fit3)
+```
+```{r}
+fit4 =lm(crim ~ nox)
+fit4
+summary(fit4)
+```
+
+```{r}
+par(mfrow=c(2,2))
+plot(fit4)
+```
+```{r}
+fit5 =lm(crim ~ rm)
+fit5
+summary(fit5)
+```
+
+```{r}
+par(mfrow=c(2,2))
+plot(fit5)
+```
+
+```{r}
+fit6 =lm(crim ~ age)
+fit6
+summary(fit6)
+```
+
+```{r}
+par(mfrow=c(2,2))
+plot(fit6)
+```
+
+```{r}
+fit7 =lm(crim ~ dis)
+fit7
+summary(fit7)
+```
+
+```{r}
+par(mfrow=c(2,2))
+plot(fit7)
+```
+
+```{r}
+fit8 =lm(crim ~ rad)
+fit8
+summary(fit8)
+```
+
+```{r}
+par(mfrow=c(2,2))
+plot(fit8)
+```
+
+```{r}
+fit9 =lm(crim ~ tax)
+fit9
+summary(fit9)
+```
+
+```{r}
+par(mfrow=c(2,2))
+plot(fit9)
+```
+
+```{r}
+fit10 =lm(crim ~ ptratio)
+fit10
+summary(fit10)
+```
+
+```{r}
+par(mfrow=c(2,2))
+plot(fit10)
+```
+
+```{r}
+fit11 =lm(crim ~ black)
+fit11
+summary(fit11)
+```
+
+```{r}
+par(mfrow=c(2,2))
+plot(fit11)
+```
+
+```{r}
+fit12 =lm(crim ~ lstat)
+fit12
+summary(fit12)
+```
+
+```{r}
+par(mfrow=c(2,2))
+plot(fit12)
+```
+
+```{r}
+fit13 =lm(crim ~ medv)
+fit13
+summary(fit13)
+```
+```{r}
+par(mfrow=c(2,2))
+plot(fit13)
+```
+
+
+All predictors have a p-value less than 0.05 except “chas”, so we may conclude that there is a statistically significant association between each predictor and the response except for the “chas” predictor.
+
+b.	Fit a multiple regression model to predict the response using all of the predictors. Describe your results. For which predictors can we reject the null hypothesis H0:βj=0 ?
+
+```{r}
+Fit=lm(crim ~ ., data = Boston)
+Fit
+summary(Fit)
+```
+
+We may reject the null hypothesis for “zn”, “dis”, “rad”, “black” and “medv”.
